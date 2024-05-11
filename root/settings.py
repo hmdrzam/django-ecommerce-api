@@ -1,9 +1,9 @@
 from pathlib import Path
-from passwords import secret
+from passwords import SECRET, DB_PASSWORD
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = secret
+SECRET_KEY = SECRET
 
 DEBUG = True
 
@@ -18,6 +18,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     "products.apps.ProductsConfig",
+
+    "rest_framework",
+    "treebeard",
 ]
 
 MIDDLEWARE = [
@@ -51,9 +54,13 @@ TEMPLATES = [
 WSGI_APPLICATION = "root.wsgi.application"
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ecommerce_api',
+        'USER': 'postgres',
+        'PASSWORD': DB_PASSWORD,
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 

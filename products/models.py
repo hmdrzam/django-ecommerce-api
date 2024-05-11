@@ -1,4 +1,20 @@
 from django.db import models
+from treebeard.mp_tree import MP_Node
+
+
+class Category(MP_Node):
+    name = models.CharField(max_length=100, unique=True)
+    english_name = models.CharField(max_length=100, unique=True)
+    description = models.TextField(null=True, blank=True)
+    active = models.BooleanField(default=True)
+    slug = models.SlugField(max_length=130, unique=True)
+
+    def __str__(self):
+        return self.english_name
+
+    class Meta:
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
 
 
 class Variation(models.Model):
@@ -24,6 +40,7 @@ class Product(models.Model):
     slug = models.SlugField(max_length=250, unique=True)
     specifications = models.JSONField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
+    category = models.ManyToManyField(Category, related_name='products')
     active = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
