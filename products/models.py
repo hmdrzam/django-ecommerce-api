@@ -1,5 +1,6 @@
 from django.db import models
 from treebeard.mp_tree import MP_Node
+from products.managers import CategoryQuerySet
 
 
 class Category(MP_Node):
@@ -8,6 +9,8 @@ class Category(MP_Node):
     description = models.TextField(null=True, blank=True)
     active = models.BooleanField(default=True)
     slug = models.SlugField(max_length=130, unique=True)
+
+    objects = CategoryQuerySet.as_manager()
 
     def __str__(self):
         return self.english_name
