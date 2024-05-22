@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
@@ -11,4 +13,4 @@ doc_patterns = [
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/products/", include("products.urls", namespace="products")),
-] + doc_patterns
+] + doc_patterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
