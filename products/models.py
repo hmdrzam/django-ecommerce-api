@@ -20,6 +20,24 @@ class Category(MP_Node):
         verbose_name_plural = "Categories"
 
 
+class CategoryImage(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='images')
+    image = models.ForeignKey('media.Image', on_delete=models.PROTECT)
+    priority = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ('priority',)
+
+    def __str__(self):
+        return f"{self.priority} - {self.category} image"
+
+    def delete(self, *args, **kwargs):
+        super().delete(*args, **kwargs)
+        for index, image in enumerate(self.category.images.all()):
+            image.priority = index
+            image.save()
+
+
 class Variation(models.Model):
     name = models.CharField(max_length=50)
     english_name = models.CharField(max_length=50)
@@ -62,3 +80,21 @@ class ProductPrice(models.Model):
 
     def __str__(self):
         return f'{"-".join([i.name for i in self.variation_option.all()])} - {self.product}'
+
+
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
+    image = models.ForeignKey('media.Image', on_delete=models.PROTECT)
+    priority = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ('priority',)
+
+    def __str__(self):
+        return f"{self.priority} - {self.product} image"
+
+    def delete(self, *args, **kwargs):
+        super().delete(*args, **kwargs)
+        for index, image in enumerate(self.product.images.all()):
+            image.priority = index
+            image.save()

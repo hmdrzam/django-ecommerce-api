@@ -3,7 +3,7 @@ from treebeard.admin import TreeAdmin
 from treebeard.forms import movenodeform_factory
 
 from .forms import ProductPriceAdminForm
-from .models import Variation, VariationOption, Product, ProductPrice, Category
+from .models import Variation, VariationOption, Product, ProductPrice, Category, ProductImage, CategoryImage
 
 admin.site.register(Variation)
 admin.site.register(VariationOption)
@@ -20,3 +20,7 @@ admin.site.register(Category, CategoryAdmin)
 @admin.register(ProductPrice)
 class ProductPriceAdmin(admin.ModelAdmin):
     form = ProductPriceAdminForm
+
+
+admin.site.register(ProductImage)
+admin.site.register(CategoryImage)
