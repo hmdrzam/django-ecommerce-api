@@ -47,7 +47,7 @@ class Product(models.Model):
     active = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    variation = models.ForeignKey(Variation, on_delete=models.SET_NULL, related_name='products', null=True, blank=True)
+    variation = models.ManyToManyField(Variation, blank=True, related_name='products')
 
     def __str__(self):
         return self.english_name
@@ -55,11 +55,10 @@ class Product(models.Model):
 
 class ProductPrice(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='prices')
-    variation_option = models.ForeignKey(VariationOption, on_delete=models.CASCADE, related_name='prices', null=True,
-                                         blank=True)
+    variation_option = models.ManyToManyField(VariationOption, blank=True)
     price = models.PositiveBigIntegerField()
     discount_price = models.PositiveBigIntegerField(blank=True, null=True)
     count = models.PositiveSmallIntegerField()
 
     def __str__(self):
-        return f'{self.variation_option} - {self.product}'
+        return f'{"-".join([i.name for i in self.variation_option.all()])} - {self.product}'
