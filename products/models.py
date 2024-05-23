@@ -77,6 +77,8 @@ class ProductPrice(models.Model):
     price = models.PositiveBigIntegerField()
     discount_price = models.PositiveBigIntegerField(blank=True, null=True)
     count = models.PositiveSmallIntegerField()
+    upc = models.CharField(max_length=24, unique=True, null=True, blank=True)
+
 
     def __str__(self):
         return f'{"-".join([i.name for i in self.variation_option.all()])} - {self.product}'

@@ -19,6 +19,7 @@ INSTALLED_APPS = [
 
     "products.apps.ProductsConfig",
     "media.apps.MediaConfig",
+    "inventory.apps.InventoryConfig",
 
     "rest_framework",
     "treebeard",
