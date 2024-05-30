@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     "products.apps.ProductsConfig",
     "media.apps.MediaConfig",
     "inventory.apps.InventoryConfig",
+    "accounts.apps.AccountsConfig",
 
     "rest_framework",
     "treebeard",
@@ -66,6 +67,8 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+AUTH_USER_MODEL = 'accounts.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
