@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "treebeard",
     "drf_spectacular",
+    "django_countries",
 ]
 
 MIDDLEWARE = [

@@ -4,8 +4,11 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.core.mail import send_mail
 from django.core.validators import RegexValidator
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django_countries.fields import CountryField
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -69,3 +72,36 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def email_user(self, subject, message, from_email=None, **kwargs):
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+
+class Profile(models.Model):
+    GENDER_CHOICES = (
+        ("M", "Male"),
+        ("F", "Female"),
+    )
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    id_code = models.CharField(max_length=10, unique=True, null=True, blank=True)
+    bio = models.CharField(max_length=200, null=True, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user}'s profile"
+
+
+@receiver(post_save, sender=User)
+def create_user_cart(sender, created, instance, *args, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+
+class Address(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="address")
+    country = CountryField()
+    address = models.CharField(max_length=256)
+    postal_code = models.CharField(max_length=10)
+    primary = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user}'s {self.postal_code} address"
