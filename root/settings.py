@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     "media.apps.MediaConfig",
     "inventory.apps.InventoryConfig",
     "accounts.apps.AccountsConfig",
+    "carts.apps.CartsConfig",
 
     "rest_framework",
     "treebeard",
