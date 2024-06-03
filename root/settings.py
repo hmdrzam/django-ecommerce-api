@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     "inventory.apps.InventoryConfig",
     "accounts.apps.AccountsConfig",
     "carts.apps.CartsConfig",
+    "orders.apps.OrdersConfig",
 
     "rest_framework",
     "treebeard",
