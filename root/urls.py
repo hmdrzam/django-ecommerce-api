@@ -14,4 +14,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/products/", include("products.urls", namespace="products")),
     path("api/inventory/", include("inventory.urls", namespace="inventory")),
+    path("api/carts/", include("carts.urls", namespace="carts")),
 ] + doc_patterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

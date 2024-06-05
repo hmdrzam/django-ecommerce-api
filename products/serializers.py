@@ -80,3 +80,36 @@ class ProductRetrieveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
+
+
+class VariationOptionForCartRetrieveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VariationOption
+        fields = '__all__'
+        read_only_fields = ('variation',)
+
+
+class ProductPriceForCartRetrieveSerializer(serializers.ModelSerializer):
+    variation_option = VariationOptionForCartRetrieveSerializer(many=True)
+
+    class Meta:
+        model = ProductPrice
+        exclude = ('product',)
+        read_only_fields = ('price',)
+
+
+class VariationOptionForCartUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VariationOption
+        fields = '__all__'
+        read_only_fields = ('variation',)
+
+
+class ProductPriceForCartUpdateSerializer(serializers.ModelSerializer):
+    variation_option = VariationOptionForCartRetrieveSerializer(many=True)
+    id = serializers.IntegerField(read_only=False)
+
+    class Meta:
+        model = ProductPrice
+        exclude = ('product',)
+        read_only_fields = ('price',)
