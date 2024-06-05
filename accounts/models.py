@@ -10,6 +10,8 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django_countries.fields import CountryField
 
+from accounts.validators import validate_postal_code
+
 
 class User(AbstractBaseUser, PermissionsMixin):
     username_validator = UnicodeUsernameValidator()
@@ -100,7 +102,7 @@ class Address(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="address")
     country = CountryField()
     address = models.CharField(max_length=256)
-    postal_code = models.CharField(max_length=10)
+    postal_code = models.CharField(max_length=10, validators=(validate_postal_code,))
     primary = models.BooleanField(default=False)
 
     def __str__(self):
